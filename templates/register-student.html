@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+{% block body %}
+<body class="full-screen flex-center">
+  <h1>Student Registration</h1>
+  <form action="/register-student" method="POST">
+    Student First Name: <input type="text" name="fname" required>
+    <br>
+    Student Last Name: <input type="text" name="lname" required>
+    <br>
+    Parent First Name: <input type="text" name="pfname" required>
+    <br>
+    Parent Last Name: <input type="text" name="plname" required>
+    <br>
+    Email: <input type="email" name="email" required>
+    <br>
+    Phone Number: <input type="text" name="phone" required> 
+    <br>
+    Password: <input type="password" name="password" required>
+    <br>
+    Password confirmation: <input type="password" name="confirmation" required>
+    <br>
+    <input type="submit" name="type" value="Register as a Student">
+    <br>
+    <br>
+  </form>
+</body>
+{% endblock %}

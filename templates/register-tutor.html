@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block body %}
+<body class="full-screen flex-center">
+  <h1>Tutor Registration</h1>
+    <form action="/register-tutor" method="POST">
+      First Name: <input type="text" name="fname" required>
+      <br>
+      Last Name: <input type="text" name="lname" required>
+      <br>
+      Email: <input type="email" name="email" required>
+      <br>
+      Phone Number: <input type="text" name="phone" required> 
+      <br>
+      Chapter/School: <select name="chapter" required>
+        <option selected disabled value=""></option>
+        {% for chapter in chapters %}
+          <option value={{ chapter }}>{{ chapter }}</option>
+        {% endfor %}
+      </select>
+      <br>
+      Password: <input type="password" name="password" required>
+      <br>
+      Password confirmation: <input type="password" name="confirmation" required>
+      <br>
+      <input type="submit" name="type" value="Register as a Tutor">
+      <br>
+      <br>
+    </form>
+</body>
+{% endblock %}

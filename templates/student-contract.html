@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block body %}
+<iframe src="static/SMT Student Contract.pdf" width="50%" height="720px">Student Contract</iframe>
+<div style="position:absolute; left: 800px; top: 50px">
+    <h1>Student Contract</h1>
+    <form action="/contract" method="POST">
+        By typing your full name here you acknowledge and agree to the terms listed in the contract.
+        <br>
+        <input type="text" name="eSig" required>
+        <br>
+        <br>
+        May we use your student's pictures on our website? (they may include your student's face)
+        <input type="radio" name="pictureUse" value="Yes" required>Yes</input>
+        <input type="radio" name="pictureUse" value="No">No</input>
+        <br>
+        <br>
+        Please type your name here to confirm the above decision.
+        <br>
+        <input type="text" name="pictureSig" required>
+        <br>
+        <br>
+        <input type="submit" value="Submit Contract">
+    </form>
+</div>
+{% endblock %}

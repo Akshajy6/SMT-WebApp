@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>SMT Web App</title>
+  </head>
+  <body>
+    {% block body %}{% endblock %}
+    <br>
+    {% for message in get_flashed_messages() %}
+      {{ message }}<br>
+    {% endfor %}  
+  </body>
+</html>
