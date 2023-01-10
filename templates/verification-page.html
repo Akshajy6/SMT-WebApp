@@ -1,4 +1,7 @@
 {% extends "layout.html" %}
+{% block extra %}
+  <meta http-equiv="refresh" content="1;url=/email-verification">
+{% endblock %}
 {% block body %}
   A verification email has been sent to {{ email }}. Please verify your email and reload the page to gain access to your account. Make sure to check your spam folder.
   <br>

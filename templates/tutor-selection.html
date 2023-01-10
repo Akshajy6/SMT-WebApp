@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block body %}
+    <h1>Select Tutor</h1>
+    Note: Once you select a tutor, you will not be able to change your tutor without the help of an admin.
+    <br><br>
+    {% for profile in profiles %}
+        <h4>{{ profile["name"] }}</h4>
+        <form action="/tutor-selection" method="POST">
+            <button name="tutor" value="{{ profile["name"] }}">Select</button> 
+        </form>
+        <br>
+        {{ profile["profile"] }}
+    {% endfor %}
+{% endblock %}

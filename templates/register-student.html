@@ -4,24 +4,107 @@
   <h1>Student Registration</h1>
   <form action="/register-student" method="POST">
     Student First Name: <input type="text" name="fname" required>
-    <br>
+    <br><br>
     Student Last Name: <input type="text" name="lname" required>
+    <br><br>
+    Parent/Guardian First Name: <input type="text" name="pfname" required>
+    <br><br>
+    Parent/Guardian Last Name: <input type="text" name="plname" required>
+    <br><br>
+    Primary Email: <input type="email" name="email" required>
     <br>
-    Parent First Name: <input type="text" name="pfname" required>
-    <br>
-    Parent Last Name: <input type="text" name="plname" required>
-    <br>
-    Email: <input type="email" name="email" required>
-    <br>
+    <small>Generally a parent/guardian email</small>
+    <br><br>
     Phone Number: <input type="text" name="phone" required> 
     <br>
+    <small>10 digits. Format: 2223334444</small>
+    <br><br>
+    ZIP Code: <input type="text" name="zipcode" required>
+    <br>
+    <small>5 digits (eg, 92807 or 11222). This information is not publicly released.</small> 
+    <br><br>
+    Gender: <select name="gender" required>
+      <option value="" selected disabled></option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Non-Binary">Non-Binary</option>
+      <option value="Other">Other</option>
+      <option value="Prefer not to say">Prefer not to say</option>
+    </select>
+    <br>
+    <small>Individual student information is not publicly released.</small> 
+    <br><br>
+    Grade Level: <select name="grade" required>
+      <option value="" selected disabled></option>
+      <option value="Kindergarten">Kindergarten</option>
+      <option value="Grade 1">Grade 1</option>
+      <option value="Grade 2">Grade 2</option>
+      <option value="Grade 3">Grade 3</option>
+      <option value="Grade 4">Grade 4</option>
+      <option value="Grade 5">Grade 5</option>
+      <option value="Grade 6">Grade 6</option>
+      <option value="Grade 7">Grade 7</option>
+      <option value="Grade 8">Grade 8</option>
+      <option value="Grade 9">Grade 9</option>
+      <option value="Grade 10">Grade 10</option>
+      <option value="Grade 11">Grade 11</option>
+      <option value="Grade 12">Grade 12</option>
+    </select>
+    <br><br>
+    Student Ethnicity: <select name="ethnicity" required>
+      <option value="" selected disabled></option>
+      <option value="Hispanic">Hispanic</option>
+      <option value="African American">African American</option>
+      <option value="Asian">Asian</option>
+      <option value="White">White</option>
+      <option value="Native American">Native American</option>
+      <option value="Native Hawaiian/Pacific Islander">Native Hawaiian/Pacific Islander</option>
+      <option value="Other">Other</option>
+      <option value="Prefer not to say">Prefer not to say</option>
+    </select>
+    <br>
+    <small>Individual student information is not publicly released.</small> 
+    <br><br>
+    What subject does the student need help with? <select name="subject" required>
+      <option value="" selected disabled></option>
+      <option value="Math">Math</option>
+      <option value="Reading">Reading</option>
+      <option value="Language Arts">Language Arts</option>
+      <option value="Chemistry">Chemistry (middle school only)</option>
+      <option value="Physics">Physics (middle school only)</option>
+    </select>
+    <br><br>
+    Student's family's combined salary: <select name="salary" required>
+      <option value="" selected disabled></option>
+      <option value="$0-$10000">$0-$10000</option>
+      <option value="$10001-$20000">$10001-$20000</option>
+      <option value="$20001-$30000">$20001-$30000</option>
+      <option value="$30001-$40000">$30001-$40000</option>
+      <option value="$40001-$50000">$40001-$50000</option>
+      <option value="$50001-$60000">$50001-$60000</option>
+      <option value="$60001-$70000">$60001-$70000</option>
+      <option value=">$70000">>$70000</option>
+      <option value="Prefer not to say">Prefer not to say</option>
+    </select>
+    <br>
+    <small>Individual student information is not publicly released.</small> 
+    <br><br>
+    Describe the family circumstance. Select all that apply.
+    <br>
+    <input type="checkbox" name="circumstance" value="My student attends a Title 1 School."><label>My student attends a Title 1 School.</label><br>
+    <input type="checkbox" name="circumstance" value="My student receives free lunch at school."><label>My student receives free lunch at school.</label><br>
+    <input type="checkbox" name="circumstance" value="My student receives reduced-price lunch at school."><label>My student receives reduced-price lunch at school.</label><br>
+    <input type="checkbox" name="circumstance" value="The student lives in a single parent home."><label>The student lives in a single parent home.</label><br>
+    <input type="checkbox" name="circumstance" value="The student is a foster child."><label>The student is a foster child.</label><br>
+    <input type="checkbox" name="circumstance" value="The student is homeless."><label>The student is homeless.</label><br>
+    <input type="checkbox" name="circumstance" value="The family is on or qualifies for food stamps."><label>The family is on or qualifies for food stamps.</label><br>
+    <input type="checkbox" name="circumstance" value="None of the above"><label>None of the above</label>
+    <br><br>
     Password: <input type="password" name="password" required>
-    <br>
-    Password confirmation: <input type="password" name="confirmation" required>
-    <br>
+    <br><br>
+    Confirm Password: <input type="password" name="confirmation" required>
+    <br><br>
     <input type="submit" name="type" value="Register as a Student">
-    <br>
-    <br>
   </form>
 </body>
 {% endblock %}

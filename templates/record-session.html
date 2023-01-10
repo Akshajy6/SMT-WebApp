@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block body %}    
+<h1>Record a session</h1>
+<form action="/record-session" method="POST" enctype="multipart/form-data">
+    Start time: <input type="time" name="start" step="60" required><br><br>
+    End time: <input type="time" name="end" step="60" required><br><br>
+    Student First Name: <input type="text" name="sfname" required><br><br>
+    Student Last Name: <input type="text" name="slname" required><br><br>
+    Subject: <select name="subject" required>
+        <option value="" selected disabled></option>
+        <option value="Math">Math</option>
+        <option value="Reading">Reading</option>
+        <option value="Language Arts">Language Arts</option>
+        <option value="Chemistry">Chemistry</option>
+        <option value="Physics">Physics</option>
+    </select><br><br>
+    Specific Topic: <input type="text" name="topic" required><br><br>
+    Screenshot of session: <input type="file" name="screenshot" required><br><br>
+    <input type="submit" value="Record Session">
+</form>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% block body %}
+<body class="full-screen flex-center">
+  Hello, {{ name }}. 
+  <br>
+  <br>
+  <form action="/admin" method="POST">
+    View messages with: <select name="user" onchange="this.form.submit();" required>
+        <option selected disabled value=""></option>
+        {% if chatList is defined %}
+            {% for user in chatList %}
+                <option value="{{ user }}">{{ user }}</option>
+            {% endfor %}
+        {% endif %}
+    </select>
+  </form>
+  <br>
+  <br>
+  {% if receiver is defined %}
+    <h4>{{ receiver }}</h4>
+    {% if messagesPresent == true %}
+      {% for message in messageList %}
+        {{ message["sender"] }} on {{ message["time"] }} <br> {{ message["message"] }} <br><br>
+      {% endfor %}
+    {% else %}
+      You don't have any messages with {{ receiver }}. Send a message to start a conversation.
+    {% endif %}
+    <br>
+    <br>
+    <form action="/send" method="POST">
+      <input type="hidden" name="receiver" value="{{ receiver }}">
+      <input type="text" name="message" required>
+      <input type="submit" value="Send">
+    </form>
+    <br>
+    <br>
+  {% endif %}
+  <a href="/record-session">  
+    <button>Record a Session</button>
+  </a>
+  <br><br>
+  <a href="/change-assignments">
+    <button>Re-assign Students/Tutors</button>
+  </a>
+  <br>
+  <br>
+  <a href="/logout">Log Out</a>
+</body>
+{% endblock %}
