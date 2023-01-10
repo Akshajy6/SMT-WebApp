@@ -528,7 +528,10 @@ IMPROVEMENTS (NOT URGENT)
 - use 'each', 'shallow', and complex query methods to make looping through db better/faster
 
 2. Incorporate with GoDaddy? Design?
+  May have to download website source code and incorporate manually
 3. How to track Zoom video session to verify hours?
+  Research Zoom API
 4. Security 
-Set different read/write rules for each route.(allow if authenticated?) Ensure https and other protocols, completely secure everything before deploying it on production server and shifting over to domain.
+  Set different read/write rules for each route.(allow if authenticated?) 
+  Ensure https and other protocols, completely secure everything before deploying it on production server and shifting over to domain.
 """
