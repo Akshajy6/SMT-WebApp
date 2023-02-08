@@ -6,8 +6,6 @@ from json import load
 from functools import wraps, lru_cache
 import phonenumbers
 import datetime
-import uuid
-from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
@@ -26,6 +24,9 @@ app.config["SESSION_PERMANENT"] =  False
 app.config["SESSION_TYPE"] = "filesystem"
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
 app.config["UPLOAD_FOLDER"] = r"static\uploads"
+app.config["SESSION_COOKIE_SECURE"] = True
+app.config["SESSION_COOKIE_HTTPONLY"] = True
+app.config["SESSION_COOKIE_SAMESITE"] = 'Lax'
 
 CHAPTERS = ["Wheeler"]
 
@@ -102,8 +103,28 @@ def getMessages(sender, receiver):
     messageList.sort(key=lambda item:item['time'])
     return messageList
   return False
+
+@app.route("/")
+def index():
+  return render_template("home.html")
+
+@app.route("/the-team")
+def the_team():
+  return render_template("the-team.html")
+
+@app.route("/parent-reviews")
+def parent_reviews():
+  return render_template("parent-reviews.html")
+
+@app.route("/resources")
+def resources():
+  return render_template("resources.html")
+
+@app.route("/contact")
+def contact():
+  return render_template("contact.html")
     
-@app.route("/", methods=["GET", "POST"])
+@app.route("/home", methods=["GET", "POST"])
 @login_required
 @email_verification_required
 @contract_signature_required
@@ -138,7 +159,7 @@ def dashboard():
     receiver = request.form.get("user")
     if not receiver:
       flash("Please specify which user.")
-      return redirect("/")
+      return redirect("/home")
     messageList = []
     if not getMessages(name, receiver):
       messagesPresent = False
@@ -169,7 +190,7 @@ def send():
   db.child("messages").child(name + " - " +  receiver).push(message)
   session["justSentMessage"] = True
   session["messageReceiver"] = receiver
-  return redirect("/")
+  return redirect("/home")
 
 @app.route("/admin", methods=["GET", "POST"])
 @login_required
@@ -178,7 +199,7 @@ def send():
 def admin_dashboard():
   info = lookup(session["user_id"])
   if not info["admin"]:
-    return redirect("/")
+    return redirect("/home")
   name = info["name"]
   type = info["type"]
   tutors = db.child("users").child("tutors").get()
@@ -221,7 +242,7 @@ def admin_dashboard():
 @contract_signature_required
 def record_session():
   if lookup(session["user_id"])["type"] != "tutors":
-    return redirect("/")
+    return redirect("/home")
   if request.method == "GET":
     return render_template("record-session.html")
   start = request.form.get("start")
@@ -250,12 +271,11 @@ def record_session():
     'topic': topic,
   }
   db.child("sessions").child(tutorName + " - " +  studentName).child(date).set(sessionData)
-  file_name = secure_filename(screenshot.filename)
-  path = os.path.join(app.config['UPLOAD_FOLDER'], file_name)
+  path = os.path.join(app.config['UPLOAD_FOLDER'], date + screenshot.filename.rsplit('.', 1)[1].lower())
   screenshot.save(path)
   storage.child("screenshots").child(tutorName + " - " +  studentName).child(date).put(path)
   os.remove(path)
-  return redirect("/")
+  return redirect("/home")
 
 @app.route("/change-assignments", methods=["GET", "POST"])
 @login_required
@@ -263,7 +283,7 @@ def record_session():
 @contract_signature_required
 def change_assignment():
   if not lookup(session["user_id"])["admin"]:
-    return redirect("/")
+    return redirect("/home")
   if request.method == "GET":
     tutors = db.child("users").child("tutors").get()
     students = db.child("users").child("students").get()
@@ -288,6 +308,44 @@ def change_assignment():
   flash("Assignments updated. Student " + student + " has been assigned to tutor " + tutor + ".")
   return redirect("/change-assignments")
 
+@app.route("/view", methods=["GET", "POST"])
+@login_required
+@email_verification_required
+@contract_signature_required
+def view(): 
+  if not lookup(session["user_id"])["admin"]:
+    return redirect("/home")
+  if request.method == "GET":
+    return render_template("view.html")
+  name = request.form.get("name")
+  data = request.form.get("data")
+  if not name:
+    flash("Please provide the name of the person whose data you wish to view.")
+    return redirect("/view")
+  if not data:
+    flash("Please provide what type of data you wish to view.")
+    return redirect("/view")
+  if data == "User":
+    tutors = db.child("users").child("tutors").get().val()
+    students = db.child("users").child("students").get().val()
+    if name in tutors:
+      type = "tutors"
+    if name in students:
+      type = "students"
+    userData = db.child("users").child(type).child(name).get().val()
+    contractData = userData.pop("contractInfo")
+    if type == "tutors":
+      return render_template("user.html", userData=userData, contractData=contractData, data=data, name=name)
+    if type == "students":
+      demographicInfo = userData.pop("demographicInfo")
+      return render_template("user.html", userData=userData, contractData=contractData, data=data, name=name, demographicInfo=demographicInfo, student=True)
+  # elif data == "Message":
+
+  # elif data == "Session":
+  else:
+    flash("Invalid type of data.")
+    return redirect("/view")
+
 @app.route("/tutor-selection", methods=["GET", "POST"])
 @login_required
 @email_verification_required
@@ -296,7 +354,7 @@ def tutor_selection():
   if request.method == "GET":
     info = lookup(session["user_id"])    
     if info["type"] != "students" or info["assignment"]:
-      return redirect("/")
+      return redirect("/home")
     tutors = db.child("users").child("tutors").get()
     profiles = []
     if tutors.val():
@@ -315,7 +373,7 @@ def tutor_selection():
     student = lookup(session["user_id"])["name"]
     db.child("users").child("students").child(student).update({"assignedTutor": tutor})
     db.child("users").child("tutors").child(tutor).update({"assignedStudent": student})
-    return redirect("/")
+    return redirect("/home")
     
 @app.route("/email-verification", methods=["GET", "POST"])
 @login_required
@@ -327,7 +385,7 @@ def email_verification():
     type = info["type"]
     if verified:
       if type == "tutors":
-        return redirect("/")
+        return redirect("/home")
       if type == "students":
         return redirect("/tutor-selection")
     return render_template("verification-page.html", email=email)
@@ -346,13 +404,13 @@ def contract():
     contractSigned = db.child("users").child(type).child(name).get().val()["contractSigned"]
     if type != "students":
       if contractSigned:
-        return redirect("/")
+        return redirect("/home")
       return render_template("tutor-contract.html")
     if not contractSigned:
       return render_template("student-contract.html")
     if not info["assignment"]:
       return redirect("/tutor-selection")
-    return redirect("/")
+    return redirect("/home")
   else:
     eSig = request.form.get("eSig")
     pictureUse = request.form.get("pictureUse") == "Yes"
@@ -375,6 +433,23 @@ def contract():
     db.child("users").child(accountType).child(name).update(data)
     return redirect("/contract")
 
+@app.route("/reset", methods=["GET", "POST"])
+def reset():
+  if request.method == "GET":
+    return render_template("reset.html")
+  else:
+    email = request.form.get("email")
+    if not email:
+      flash("Please provide the email you made your account with.")
+      return redirect("/reset")
+    try:
+      auth.send_password_reset_email(email)
+      flash(f"A link to reset your password was sent to {email}. Make sure to check your spam folder.")
+      return redirect("/login")
+    except:
+      flash("Account not found.")
+      return redirect("/reset")
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
   session.clear()
@@ -391,12 +466,13 @@ def login():
         session["user_id"] = user["idToken"]
       except:
         flash("Incorrect email or password. Please try again.")
-    return redirect("/")
+    return redirect("/home")
 
 @app.route("/logout")
 def logout(): 
+  auth.current_user = None
   session.clear()
-  return redirect("/")
+  return redirect("/home")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -519,19 +595,3 @@ def register_student():
     db.child("users").child("students").child(name).child("demographicInfo").set(demographicData)
     session["user_id"] = user["idToken"]
     return redirect("/email-verification")
-
-"""
-TODO:
-IMPROVEMENTS (NOT URGENT)
-- remove original assignments from db after reassigning
-- replace multiple db updates with one multi-location update (hopefully faster)
-- use 'each', 'shallow', and complex query methods to make looping through db better/faster
-
-2. Incorporate with GoDaddy? Design?
-  May have to download website source code and incorporate manually
-3. How to track Zoom video session to verify hours?
-  Research Zoom API
-4. Security 
-  Set different read/write rules for each route.(allow if authenticated?) 
-  Ensure https and other protocols, completely secure everything before deploying it on production server and shifting over to domain.
-"""

@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block body %}    
+<h1>View Data</h1>
+<form action="/view" method="POST">
+    <input type="text" name="name" placeholder="Name of User" required><br><br>
+    <input type="radio" name="data" value="User" required>Get User Data<br><br>
+    <!-- <input type="radio" name="data" value="Message" required>Get Message Data<br><br>
+    <input type="radio" name="data" value="Session" required>Get Tutoring Session Data<br><br> -->
+    <input type="submit" value="View Data">
+</form>
+<br><br>
+<a href="/admin">Back to Dashboard</a>
+{% endblock %}

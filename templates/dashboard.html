@@ -4,7 +4,7 @@
   Hello, {{ name }}. 
   <br>
   <br>
-  <form action="/" method="POST">
+  <form action="/home" method="POST">
     View messages with: <select name="user" onchange="this.form.submit();">
       <option selected disabled value=""></option>
       {% if admins is defined %}

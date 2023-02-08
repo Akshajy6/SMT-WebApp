@@ -1,0 +1,53 @@
+{% extends 'layout.html' %}
+{% block body %}
+    <table class="table w-auto table-striped table-bordered">
+        <thead>
+            <tr>
+                <th style="text-align:center" colspan="2">{{ data }} Data for {{ name }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in userData %}
+                <tr>
+                    <th>{{ row }}</th>
+                    <td>{{ userData[row] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% if data == "User" %}
+        <table class="table w-auto table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th style="text-align:center" colspan="2">Contract Data for {{ name }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in contractData %}
+                    <tr>
+                        <th>{{ row }}</th>
+                        <td>{{ contractData[row] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+    {% if student %}
+        <table class="table w-auto table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th style="text-align:center" colspan="2">Demographic Data for {{ name }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in demographicInfo %}
+                    <tr>
+                        <th>{{ row }}</th>
+                        <td>{{ demographicInfo[row] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+    <a href="/view">Back</a>
+{% endblock %}
