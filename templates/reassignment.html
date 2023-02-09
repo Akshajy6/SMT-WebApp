@@ -3,16 +3,16 @@
 <h1>Re-assign Students/Tutors</h1>
 <body class="full-screen flex-center">
   <form action="/change-assignments" method="POST">
-    Tutor: <select name="tutor" required>
-        <option selected disabled value=""></option>
+    <select name="tutor" required>
+        <option selected disabled value="">Tutor</option>
         {% if tutors is defined %}
             {% for tutor in tutors %}
                 <option value="{{ tutor }}">{{ tutor }}</option>
             {% endfor %}
         {% endif %}
     </select>
-    Student: <select name="student" required>
-        <option selected disabled value=""></option>
+    <select name="student" required>
+        <option selected disabled value="">Student</option>
         {% if students is defined %}
             {% for student in students %}
                 <option value="{{ student }}">{{ student }}</option>

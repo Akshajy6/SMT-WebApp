@@ -244,36 +244,38 @@ def record_session():
   if lookup(session["user_id"])["type"] != "tutors":
     return redirect("/home")
   if request.method == "GET":
-    return render_template("record-session.html")
+    studentNames = []
+    students = db.child("users").child("students").get().val()
+    for student in students:
+      studentNames.append(student)
+    return render_template("record-session.html", students=studentNames)
   start = request.form.get("start")
   end = request.form.get("end")
-  sfname = request.form.get("sfname")
-  slname = request.form.get("slname")
+  student = request.form.get("student")
   subject = request.form.get("subject")
   topic = request.form.get("topic")
   screenshot = request.files["screenshot"]
-  if not start or not end or not sfname or not slname or not subject:
+  if not start or not end or not student or not subject:
     flash("Please provide all of the above information.")
     return redirect("/record-session")
   if not allowed_file(screenshot.filename):
     flash("File type not allowed.")
     return redirect("/record-session")
   tutorName = lookup(session["user_id"])["name"]
-  studentName = sfname + " " + slname
   date = str(datetime.datetime.today().strftime('%Y-%m-%d'))
   sessionData = {
     'date': date,
     'startTime': start,
     'endTime': end,
-    'studentName': studentName,
+    'studentName': student,
     'tutorName': tutorName,
     'subject': subject,
     'topic': topic,
   }
-  db.child("sessions").child(tutorName + " - " +  studentName).child(date).set(sessionData)
+  db.child("sessions").child(tutorName + " - " +  student).child(date).set(sessionData)
   path = os.path.join(app.config['UPLOAD_FOLDER'], date + screenshot.filename.rsplit('.', 1)[1].lower())
   screenshot.save(path)
-  storage.child("screenshots").child(tutorName + " - " +  studentName).child(date).put(path)
+  storage.child("screenshots").child(tutorName + " - " +  student).child(date).put(path)
   os.remove(path)
   return redirect("/home")
 
@@ -315,8 +317,15 @@ def change_assignment():
 def view(): 
   if not lookup(session["user_id"])["admin"]:
     return redirect("/home")
-  if request.method == "GET":
-    return render_template("view.html")
+  if request.method == "GET": 
+    tutors = db.child("users").child("tutors").get().val()
+    students = db.child("users").child("students").get().val()
+    users = []
+    for tutor in tutors:
+      users.append(tutor)
+    for student in students:
+      users.append(student)
+    return render_template("view.html", users=users)
   name = request.form.get("name")
   data = request.form.get("data")
   if not name:
@@ -332,8 +341,12 @@ def view():
       type = "tutors"
     if name in students:
       type = "students"
-    userData = db.child("users").child(type).child(name).get().val()
-    contractData = userData.pop("contractInfo")
+    try:
+      userData = db.child("users").child(type).child(name).get().val()
+      contractData = userData.pop("contractInfo")
+    except:
+      flash("User Not Found")
+      return redirect("/view")
     if type == "tutors":
       return render_template("user.html", userData=userData, contractData=contractData, data=data, name=name)
     if type == "students":
@@ -447,12 +460,11 @@ def reset():
       flash(f"A link to reset your password was sent to {email}. Make sure to check your spam folder.")
       return redirect("/login")
     except:
-      flash("Account not found.")
+      flash(f"Account with email {email} not found. Please provide the email you made your account with.")
       return redirect("/reset")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-  session.clear()
   if request.method == "GET":
     return render_template("login.html")
   else:
@@ -476,7 +488,6 @@ def logout():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
-  session.clear()
   if request.method == "GET":
     return render_template("register.html")
   else:

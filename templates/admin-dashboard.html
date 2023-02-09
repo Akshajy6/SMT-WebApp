@@ -27,9 +27,8 @@
         {% endif %}
     </select>
   </form>
-  <br>
-  <br>
   {% if receiver is defined %}
+  <br>
     <h4>{{ receiver }}</h4>
     {% if messagesPresent == true %}
       {% for message in messageList %}
@@ -38,16 +37,15 @@
     {% else %}
       You don't have any messages with {{ receiver }}. Send a message to start a conversation.
     {% endif %}
-    <br>
-    <br>
+    <br><br>
     <form action="/send" method="POST">
       <input type="hidden" name="receiver" value="{{ receiver }}">
       <input type="text" name="message" required>
       <input type="submit" value="Send">
     </form>
-    <br>
-    <br>
+    <br><br>
   {% endif %}
+  <br>
   <a href="/logout">Log Out</a>
 </body>
 {% endblock %}
