@@ -1,18 +1,19 @@
 {% extends "layout.html" %}
+{% block heading %}<h2>Log In</h2>{% endblock %}
 {% block body %}
-<body class="full-screen flex-center">
-  <h1>Log In</h1>
+<br><br>
+<body class="full-screen">
   <form action="/login" method="POST">
     Email: <input type="email" name="email" required>
-    <br>
-    Password: <input type="password" name="password" required>
-    <br>
-    <input type="submit">
+    <br><br>
+    Password: <input type="password" name="password" placeholder="" required>
+    <br><br>
+    <input class="button" type="submit">
     <br>
     <br>
   </form>
-  Don't have an account? <a href="/register">Register</a>
+  <small>Don't have an account? Register as a <a href="/register-student">Student</a> or <a href="/register-tutor">Tutor</a></small>
   <br>
-  Forgot your password? <a href="/reset">Reset it</a>
+  <small>Forgot your password? <a href="/reset">Reset It</a></small>
 </body>
 {% endblock %}

@@ -1,9 +1,7 @@
 {% extends "layout.html" %}
+{% block heading %}<h4>Hello, {{ name }}</h4>{% endblock %}
 {% block body %}
 <body class="full-screen flex-center">
-  Hello, {{ name }}. 
-  <br>
-  <br>
   <a href="/record-session">  
     <button>Record a Session</button>
   </a>

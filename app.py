@@ -486,18 +486,6 @@ def logout():
   session.clear()
   return redirect("/home")
 
-@app.route("/register", methods=["GET", "POST"])
-def register():
-  if request.method == "GET":
-    return render_template("register.html")
-  else:
-    if request.form["registrationType"] == "Register as a Student":
-      return redirect("/register-student")
-    elif request.form["registrationType"] == "Register as a Tutor":
-      return redirect("/register-tutor")
-    else:
-      return redirect("/register")
-
 @app.route("/register-tutor", methods=["GET", "POST"])
 def register_tutor():
   if request.method == "GET":
