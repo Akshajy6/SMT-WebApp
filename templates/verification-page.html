@@ -1,14 +1,13 @@
 {% extends "layout.html" %}
-{% block extra %}
-  <meta http-equiv="refresh" content="1;url=/email-verification">
-{% endblock %}
+{% block heading %}<h2>Email Verification</h2>{% endblock %}
 {% block body %}
-  A verification email has been sent to {{ email }}. Please verify your email and reload the page to gain access to your account. Make sure to check your spam folder.
-  <br>
+  <meta http-equiv="refresh" content="3;url=/email-verification">
+  <br><br>
+  <small>A verification email has been sent to <a style="color: #5475FE;" href="#">{{ email }}</a>. Please verify your email and reload the page to gain access to your account. Make sure to check your spam folder.</small>
+  <br><br><br>
   <form action="/email-verification" method="POST">
     <input type="submit" value="Resend verification email">
   </form>
-  <br>
   <br>
   <a href="/logout">Log Out</a>
 {% endblock %}

@@ -35,3 +35,66 @@ small {
 .middle {
   float: center;
 }
+
+input[type=submit] {
+  background-color: #5475FE;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 20px;
+}
+
+.submit {
+  background-color: #5475FE;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 16px;
+  font-size: medium;
+}
+
+.iframe {
+  position: relative;
+  right: 25%;
+  top: 10px;
+}
+
+.contract {
+  position: absolute;
+  left: 55%;
+  top: 500px
+}
+
+.message {
+  font-size: medium;
+}
+
+.info {
+  font-size: small;
+  color: black
+}
+
+.messages {
+  position: relative;
+  left: 495px;
+  width: 200px;
+  height: 300px;
+  overflow-y: scroll;
+  border-style:solid;
+  border-color: black;
+  border-width: 2px;
+  padding: 15px;
+  text-align: left;
+}
+
+.send {
+  font-size: medium;
+  width: 260px;
+  height: 75px;
+}
+
+.session-form {
+  position: relative;
+  text-align: center;
+  top: 30px;  
+}

@@ -1,14 +1,14 @@
 {% extends "layout.html" %}
+{% block heading %}<h2>Reset Password</h2>{% endblock %}
 {% block body %}
 <body class="full-screen flex-center">
-  <h1>Reset Password</h1>
   <form action="/reset" method="POST">
-    Enter the email you created your account with: <input type="email" name="email" required>
     <br><br>
+    Enter the email you created your account with<br><input type="email" name="email" required>
+    <br><br><br>
     <input type="submit" value="Send Password Reset Email">
   </form>
   <br>
-  <br>
-  <a href="/login">Back to Login</a>
+  <small><a href="/login">Back to Login</a></small>
 </body>
 {% endblock %}

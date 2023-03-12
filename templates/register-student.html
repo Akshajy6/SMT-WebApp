@@ -5,9 +5,9 @@
   <br><br><br>
   <form action="/register-student" method="POST">
     <div class="left">
-      Student First Name: <input type="text" name="fname" required>
+      Student First Name: <small><input type="text" name="fname" required></small>
       <br><br>
-      Student Last Name: <input type="text" name="lname" required>
+      Student Last Name: <small><input type="text" name="lname" required></small>
       <br><br>
       Grade Level: <select name="grade" required>
         <option value="" selected disabled></option>
@@ -63,19 +63,19 @@
       </select>
     </div>
     <div class="right">
-      Parent/Guardian First Name: <input type="text" name="pfname" required>
+      Parent/Guardian First Name: <small><input type="text" name="pfname" required></small>
       <br><br>
-      Parent/Guardian Last Name: <input type="text" name="plname" required>
+      Parent/Guardian Last Name: <small><input type="text" name="plname" required></small>
       <br><br>
-      Primary Email: <input type="email" name="email" required>
+      Primary Email: <small><input type="email" name="email" required></small>
       <br>
       <small>Generally a parent/guardian email</small>
       <br><br>
-      Phone Number: <input type="text" name="phone" required> 
+      Phone Number: <small><input type="text" name="phone" required> </small>
       <br>
       <small>10 digits. Format: 2223334444</small>
       <br><br>
-      ZIP Code: <input type="text" name="zipcode" required>
+      ZIP Code: <small><input type="text" name="zipcode" required></small>
       <br>
       <small>5 digits (eg, 92807 or 11222). This information is not publicly released.</small> 
       <br><br>
@@ -93,29 +93,43 @@
       </select>
       <br>
       <small>Individual student information is not publicly released.</small>
+      <br><br>
+      Password: <small><input type="password" name="password" required></small>
+      <br><br>
+      Confirm Password: <small><input type="password" name="confirmation" required></small>
+      <br><br><br>
+      <input type="submit" name="type" value="Register as a Student">
+      <br><br><small>Already have an account? <a href="/login">Log In</a></small>
     </div>
     <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    Describe the family circumstance. Select all that apply.
+    <div class="left">Describe the family circumstance. Select all that apply.</div>
     <br>
     <table>
       <tr>
         <td><input id="1" type="checkbox" name="circumstance" value="My student attends a Title 1 School."><label for="1"><small> My student attends a Title 1 School.</small></label><br></td>
       </tr>
+      <tr>
+        <td><input id="2" type="checkbox" name="circumstance" value="My student receives free lunch at school."><label for="2"><small> My student receives free lunch at school.</small></label><br></td>
+      </tr>
+      <tr>
+        <td><input id="3" type="checkbox" name="circumstance" value="My student receives reduced-price lunch at school."><label for="3"><small> My student receives reduced-price lunch at school.</small></label><br></td>
+      </tr>
+      <tr>
+        <td><input id="4" type="checkbox" name="circumstance" value="The student lives in a single parent home."><label for="4"><small> The student lives in a single parent home.</small></label><br></td>
+      </tr>
+      <tr>
+        <td><input id="5" type="checkbox" name="circumstance" value="The student is a foster child."><label for="5"><small> The student is a foster child.</small></label><br></td>
+      </tr>
+      <tr>
+        <td><input id="6" type="checkbox" name="circumstance" value="The student is homeless."><label for="6"><small> The student is homeless.</small></label><br></td>
+      </tr>
+      <tr>
+        <td><input id="7" type="checkbox" name="circumstance" value="The family is on or qualifies for food stamps."><label for="7"><small> The family is on or qualifies for food stamps.</small></label><br></td>
+      </tr>
+      <tr>
+        <td><input id="8" type="checkbox" name="circumstance" value="None of the above"><label for="8"><small> None of the above</small></label></td>
+      </tr>
     </table>
-    <input id="2" type="checkbox" name="circumstance" value="My student receives free lunch at school."><label for="2"><small> My student receives free lunch at school.</small></label><br>
-    <input id="3" type="checkbox" name="circumstance" value="My student receives reduced-price lunch at school."><label for="3"><small> My student receives reduced-price lunch at school.</small></label><br>
-    <input id="4" type="checkbox" name="circumstance" value="The student lives in a single parent home."><label for="4"><small> The student lives in a single parent home.</small></label><br>
-    <input id="5" type="checkbox" name="circumstance" value="The student is a foster child."><label for="5"><small> The student is a foster child.</small></label><br>
-    <input id="6" type="checkbox" name="circumstance" value="The student is homeless."><label for="6"><small> The student is homeless.</small></label><br>
-    <input id="7" type="checkbox" name="circumstance" value="The family is on or qualifies for food stamps."><label for="7"><small> The family is on or qualifies for food stamps.</small></label><br>
-    <input id="8" type="checkbox" name="circumstance" value="None of the above"><label for="8"><small> None of the above</small></label>
-    <!-- <div class="middle">
-      Password: <input type="password" name="password" required>
-      <br><br>
-      Confirm Password: <input type="password" name="confirmation" required>
-    </div> -->
-    <br><br>
-    <input type="submit" name="type" value="Register as a Student">
   </form>
 </body>
 {% endblock %}

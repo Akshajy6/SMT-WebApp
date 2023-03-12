@@ -1,9 +1,8 @@
 {% extends "layout.html" %}
+{% block heading %}<h2>Dashboard</h2>{% endblock %}
 {% block body %}
-<body class="full-screen flex-center">
-  Hello, {{ name }}. 
-  <br>
-  <br>
+<body class="full-screen flex-center" onload="location.assign('/home#scrollDiv')">
+  <br><br>
   <form action="/home" method="POST">
     View messages with: <select name="user" onchange="this.form.submit();">
       <option selected disabled value=""></option>
@@ -12,53 +11,50 @@
           <option value="{{ admin }}">{{ admin }} (admin)</option>
         {% endfor %}
       {% endif %}
-      
-      {% if assignment is defined %}
+      {% if assignment is not none %}
         <option value="{{ assignment }}">{{ assignment }}</option>
         </select>
-       </form> 
+      </form> 
       {% else %}
         </select>
       </form>
         <br>
         <br>
         {% if type == "students" %}
-          You do not have an assigned tutor to message yet. Please make sure you selected a tutor. If you have any questions, please message our admins.
-          <a href="/tutor-selection">  
-            <input type="submit" value="Select a tutor">  
-          </a>
+          <small>You do not have an assigned tutor to message yet. Please make sure you <a href="/tutor-selection">selected a tutor.</a><br>If you have any questions, please message our admins.</small>
         {% else %}
-          You do not have an assigned student to message yet. Please check back later for your assignment. If you have any questions, please message our admins.
+          <small>You do not have an assigned student to message yet. Please check back later for your assignment.<br>If you have any questions, please message our admins.</small>
         {% endif %}
       {% endif %}
-  <br>  
-  <br>
+  <br><br>
   {% if receiver is defined %}
-    <h4>{{ receiver }}</h4>
-    {% if messagesPresent == true %}
-      {% for message in messageList %}
-        {{ message["sender"] }} on {{ message["time"] }} <br> {{ message["message"] }} <br><br>
-      {% endfor %}
-    {% else %}
-      You don't have any messages with {{ receiver }}. Send a message to start a conversation.
-    {% endif %}
+    <h5>{{ receiver }}</h5>
     <br>
+    <div class="messages" id="messages">
+      {% if messagesPresent == true %}
+        {% for message in messageList %}
+        <div class="info">{{ message["sender"] }}<br>{{ message["date"] }}  {{ message["time"] }}</div><div class="message">{{ message["message"] }}</div><br>
+        {% endfor %}
+      {% else %}
+        You don't have any messages with {{ receiver }}. Send a message to start a conversation.
+      {% endif %}
+      <div id="scrollDiv"></div>
+    </div>
     <br>
     <form action="/send" method="POST">
       <input type="hidden" name="receiver" value="{{ receiver }}">
-      <input type="text" name="message" required>
+      <textarea class="send" name="message" required></textarea><br>
       <input type="submit" value="Send">
     </form>
-    <br>
     <br>
   {% endif %}
   {% if type == "tutors" %}
     <a href="/record-session">  
       <input type="submit" value="Record a session">  
     </a>
+    <br>
+    <br>
   {% endif %}
-  <br>
-  <br>
   <a href="/logout">Log Out</a>
 </body>
 {% endblock %}

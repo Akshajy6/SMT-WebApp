@@ -1,33 +1,36 @@
 {% extends "layout.html" %}
+{% block heading %}<h2>Tutor Registration</h2>{% endblock %}
 {% block body %}
 <body class="full-screen flex-center">
-  <h1>Tutor Registration</h1>
     <form action="/register-tutor" method="POST">
-      First Name: <input type="text" name="fname" required>
       <br>
-      Last Name: <input type="text" name="lname" required>
+      First Name: <small><input type="text" name="fname" required></small>
+      <br><br>
+      Last Name: <small><input type="text" name="lname" required></small>
+      <br><br>
+      Email: <small><input type="email" name="email" required></small>
+      <br><br>
+      Phone Number: <small><input type="text" name="phone" required></small> 
       <br>
-      Email: <input type="email" name="email" required>
-      <br>
-      Phone Number: <input type="text" name="phone" required> 
-      <br>
+      <small>10 digits. Format: 2223334444</small>
+      <br><br>
       Chapter/School: <select name="chapter" required>
         <option selected disabled value=""></option>
         {% for chapter in chapters %}
-          <option value={{ chapter }}>{{ chapter }}</option>
+          <option value={{ chapter }}><small>{{ chapter }}</small></option>
         {% endfor %}
       </select>
-      <br>
-      Profile: <br>
-      <textarea name="profile" cols="75" rows="6" required placeholder="Describe yourself, your interests, and your academic strengths so we can display it on our website."></textarea>
-      <br>
+      <br><br>
+      <small><textarea name="profile" cols="36" rows="3" required placeholder="Describe yourself, your interests, and your academic strengths so we can display it on our website."></textarea></small>
+      <br><br>
       Password: <input type="password" name="password" required>
-      <br>
+      <br><br>
       Confirm Password: <input type="password" name="confirmation" required>
-      <br>
+      <br><br>
       <input type="submit" name="type" value="Register as a Tutor">
       <br>
       <br>
+      <small>Already have an account? <a href="/login">Log In</a></small>
     </form>
 </body>
 {% endblock %}

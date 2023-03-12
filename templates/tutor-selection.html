@@ -1,14 +1,22 @@
 {% extends "layout.html" %}
+{% block heading %}<h2>Tutor Selection</h2>{% endblock %}
 {% block body %}
-    <h1>Select Tutor</h1>
-    Note: Once you select a tutor, you will not be able to change your tutor without the help of an admin.
+<body class="full-screen flex-center">
     <br><br>
+    <small style="color: red;">Note: Once you select a tutor, you will not be able to change your tutor without the help of an admin.</small>
+    <br><br>
+    <h3>Tutor Profiles</h3>
+    <br>
     {% for profile in profiles %}
-        <h4>{{ profile["name"] }}</h4>
+        {% set name = profile["name"] %}
+        <h5>{{ name }}</h5>
         <form action="/tutor-selection" method="POST">
-            <button name="tutor" value="{{ profile["name"] }}">Select</button> 
+            <button class="submit" name="tutor" value="{{ profile["name"] }}">Select</button> 
         </form>
         <br>
-        {{ profile["profile"] }}
+        <small>{{ profile["profile"] }}</small>
+        <br><br><br>
     {% endfor %}
+    <a href="/logout">Log Out</a>
+</body>
 {% endblock %}

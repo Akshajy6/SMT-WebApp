@@ -1,25 +1,29 @@
 {% extends "layout.html" %}
+{% block heading %}<h2>Tutor Contract</h2>{% endblock %}
 {% block body %}
-<iframe src="static/SMT Tutor Contract.pdf" width="50%" height="720px">Tutor Contract</iframe>
-<div style="position:absolute; left: 800px; top: 50px">
-    <h1>Tutor Contract</h1>
+<div class="iframe">
+    <br><br>
+    <iframe src="static/SMT Tutor Contract.pdf" width="50%" height="720px">Tutor Contract</iframe>
+</div>
+<div class="contract">
     <form action="/contract" method="POST">
-        By typing your full name here you acknowledge and agree to the terms listed in the contract.
+        <small>By typing your full name below you acknowledge<br>and agree to the terms listed in the contract.</small>
         <br>
-        <input type="text" name="eSig" required>
+        <small><input type="text" name="eSig" required></small>
+        <br><br>
+        <small>May we use your pictures on our website?<br>(they may include your face)</small><br>
+        <input id="yes" type="radio" name="pictureUse" value="Yes" required><label for="yes"><small>Yes</small></label>
+        <input id="no" type="radio" name="pictureUse" value="No"><label for="no"><small>No</small></label>
         <br>
         <br>
-        May we use your pictures on our website? (they may include your face)
-        <input type="radio" name="pictureUse" value="Yes" required>Yes</input>
-        <input type="radio" name="pictureUse" value="No">No</input>
+        <small>Please have your parent/guardian type their<br>name below to confirm the above decision.</small>
         <br>
-        <br>
-        Please have your parent/guardian type their name here to confirm the above decision.
-        <br>
-        <input type="text" name="pictureSig" required>
+        <small><input type="text" name="pictureSig" required></small>
         <br>
         <br>
         <input type="submit" value="Submit Contract">
+        <br><br>
+        <small><a href="/logout">Log Out</a></small>
     </form>
 </div>
 {% endblock %}

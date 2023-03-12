@@ -1,25 +1,31 @@
 {% extends "layout.html" %}
+{% block heading %}<h2>Student Contract</h2>{% endblock %}
 {% block body %}
-<iframe src="static/SMT Student Contract.pdf" width="50%" height="720px">Student Contract</iframe>
-<div style="position:absolute; left: 800px; top: 50px">
-    <h4>Student Contract</h4>
+<div class="iframe">
+    <br><br>
+    <iframe src="static/SMT Student Contract.pdf" width="50%" height="720px">Student Contract</iframe>
+</div>
+<div class="contract">
+    <small style="color: red">Please note that the student contract must be filled out by the student and their parent/guardian.</small>     
+    <br><br>
     <form action="/contract" method="POST">
-        By typing your full name here you acknowledge and agree to the terms listed in the contract.
+        <small>By typing your full name below you (the student) acknowledge<br>and agree to the terms listed in the contract.</small>
         <br>
-        <input type="text" name="eSig" required>
+        <small><input type="text" name="eSig" required></small>
+        <br><br>
+        <small>May we use your student's pictures on our website?<br>(they may include their face)</small><br>
+        <input id="yes" type="radio" name="pictureUse" value="Yes" required><label for="yes"><small>Yes</small></label>
+        <input id="no" type="radio" name="pictureUse" value="No"><label for="no"><small>No</small></label>
         <br>
         <br>
-        May we use your student's pictures on our website? (they may include your student's face)
-        <input type="radio" name="pictureUse" value="Yes" required>Yes</input>
-        <input type="radio" name="pictureUse" value="No">No</input>
+        <small>Please have your parent/guardian type their<br>name below to confirm the above decision and<br>agree to the terms listed in the contract.</small>
         <br>
-        <br>
-        Please type your name here to confirm the above decision.
-        <br>
-        <input type="text" name="pictureSig" required>
+        <small><input type="text" name="pictureSig" required></small>
         <br>
         <br>
         <input type="submit" value="Submit Contract">
+        <br><br>
+        <small><a href="/logout">Log Out</a></small>
     </form>
 </div>
 {% endblock %}

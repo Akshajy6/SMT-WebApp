@@ -46,11 +46,19 @@ def lookup(user_id):
   except:
     flash("An unexpected error has occurred. Please log back in and try again. If this issue persists, please contact the SMT Team.")
     return redirect("/logout")
-  name = info["displayName"]
-  email = info["email"]
-  emailVerified = info["emailVerified"]
-  tutors = db.child("users").child("tutors").get()
-  students = db.child("users").child("students").get()
+  name = info.get("displayName")
+  email = info.get("email")
+  emailVerified = info.get("emailVerified")
+  tutors = db.child("users").child("tutors")
+  try:
+    tutors = tutors.get()
+  except:
+    tutors = []
+  students = db.child("users").child("students")
+  try:
+    students = students.get()
+  except:
+    students = []
   admin = False
   if tutors.val():
     if name in tutors.val():
@@ -89,7 +97,7 @@ def contract_signature_required(f):
   return decorated_function
 
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ['png', 'jpg', 'jpeg']
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ['png', 'jpg', 'jpeg', 'heic']
 
 def getMessages(sender, receiver):
   groups = db.child("messages").get()
@@ -99,7 +107,7 @@ def getMessages(sender, receiver):
       if sender in group.key() and receiver in group.key():
         messages = db.child("messages").child(group.key()).get()
         for message in messages:
-          messageList.append({"message": message.val()["message"], "sender": message.val()["senderName"], "time": message.val()["timeSent"]})
+          messageList.append({"message": message.val()["message"], "sender": message.val()["senderName"], "date": message.val()["dateSent"], "time": message.val()["timeSent"]})
     messageList.sort(key=lambda item:item['time'])
     return messageList
   return False
@@ -181,11 +189,15 @@ def send():
     flash("Please provide the receiver of your message")
   elif not message:
     flash("Please provide the message to send.")
+  sent = datetime.datetime.fromtimestamp(datetime.datetime.now().timestamp()).replace(microsecond=0)
+  date = sent.strftime("%h %d %Y")
+  time = sent.strftime("%I:%M %p")
   message = {
     "senderName": name,
     "receiverName": receiver,
     "message": message,
-    "timeSent": str(datetime.datetime.fromtimestamp(datetime.datetime.now().timestamp()).replace(microsecond=0))
+    "dateSent": date,
+    "timeSent": time,
   }
   db.child("messages").child(name + " - " +  receiver).push(message)
   session["justSentMessage"] = True
@@ -310,54 +322,54 @@ def change_assignment():
   flash("Assignments updated. Student " + student + " has been assigned to tutor " + tutor + ".")
   return redirect("/change-assignments")
 
-@app.route("/view", methods=["GET", "POST"])
-@login_required
-@email_verification_required
-@contract_signature_required
-def view(): 
-  if not lookup(session["user_id"])["admin"]:
-    return redirect("/home")
-  if request.method == "GET": 
-    tutors = db.child("users").child("tutors").get().val()
-    students = db.child("users").child("students").get().val()
-    users = []
-    for tutor in tutors:
-      users.append(tutor)
-    for student in students:
-      users.append(student)
-    return render_template("view.html", users=users)
-  name = request.form.get("name")
-  data = request.form.get("data")
-  if not name:
-    flash("Please provide the name of the person whose data you wish to view.")
-    return redirect("/view")
-  if not data:
-    flash("Please provide what type of data you wish to view.")
-    return redirect("/view")
-  if data == "User":
-    tutors = db.child("users").child("tutors").get().val()
-    students = db.child("users").child("students").get().val()
-    if name in tutors:
-      type = "tutors"
-    if name in students:
-      type = "students"
-    try:
-      userData = db.child("users").child(type).child(name).get().val()
-      contractData = userData.pop("contractInfo")
-    except:
-      flash("User Not Found")
-      return redirect("/view")
-    if type == "tutors":
-      return render_template("user.html", userData=userData, contractData=contractData, data=data, name=name)
-    if type == "students":
-      demographicInfo = userData.pop("demographicInfo")
-      return render_template("user.html", userData=userData, contractData=contractData, data=data, name=name, demographicInfo=demographicInfo, student=True)
-  # elif data == "Message":
+# @app.route("/view", methods=["GET", "POST"])
+# @login_required
+# @email_verification_required
+# @contract_signature_required
+# def view(): 
+#   if not lookup(session["user_id"])["admin"]:
+#     return redirect("/home")
+#   if request.method == "GET": 
+#     tutors = db.child("users").child("tutors").get().val()
+#     students = db.child("users").child("students").get().val()
+#     users = []
+#     for tutor in tutors:
+#       users.append(tutor)
+#     for student in students:
+#       users.append(student)
+#     return render_template("view.html", users=users)
+#   name = request.form.get("name")
+#   data = request.form.get("data")
+#   if not name:
+#     flash("Please provide the name of the person whose data you wish to view.")
+#     return redirect("/view")
+#   if not data:
+#     flash("Please provide what type of data you wish to view.")
+#     return redirect("/view")
+#   if data == "User":
+#     tutors = db.child("users").child("tutors").get().val()
+#     students = db.child("users").child("students").get().val()
+#     if name in tutors:
+#       type = "tutors"
+#     if name in students:
+#       type = "students"
+#     try:
+#       userData = db.child("users").child(type).child(name).get().val()
+#       contractData = userData.pop("contractInfo")
+#     except:
+#       flash("User Not Found")
+#       return redirect("/view")
+#     if type == "tutors":
+#       return render_template("user.html", userData=userData, contractData=contractData, data=data, name=name)
+#     if type == "students":
+#       demographicInfo = userData.pop("demographicInfo")
+#       return render_template("user.html", userData=userData, contractData=contractData, data=data, name=name, demographicInfo=demographicInfo, student=True)
+#   # elif data == "Message":
 
-  # elif data == "Session":
-  else:
-    flash("Invalid type of data.")
-    return redirect("/view")
+#   # elif data == "Session":
+#   else:
+#     flash("Invalid type of data.")
+#     return redirect("/view")
 
 @app.route("/tutor-selection", methods=["GET", "POST"])
 @login_required
@@ -403,7 +415,7 @@ def email_verification():
         return redirect("/tutor-selection")
     return render_template("verification-page.html", email=email)
   else:
-    auth.send_email_verification(session["user_id"])
+    auth.send_email_verification(session["user_id"]) 
     return redirect("/email-verification")
 
 @app.route("/contract", methods=["GET", "POST"])
