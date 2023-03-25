@@ -1,18 +1,22 @@
 from flask import Flask, flash, session, redirect, render_template, request
 import pyrebase
 import os
-from dotenv import load_dotenv
-from json import load
 from functools import wraps, lru_cache
 import phonenumbers
 import datetime
 
 app = Flask(__name__)
 
-with open("config.json") as file:
-  config = load(file)
-
-load_dotenv("dev.env")
+config = {
+    "apiKey": "AIzaSyC9u1M5xSQTELTIO_uewoIopq1OvHQ-ZPY",
+    "authDomain": "smt-webapp-c53e1.firebaseapp.com",
+    "projectId": "smt-webapp-c53e1",
+    "storageBucket": "smt-webapp-c53e1.appspot.com",
+    "messagingSenderId": "833960544814",
+    "appId": "1:833960544814:web:fd7c8d9ba899f933346dbf",
+    "measurementId": "G-6P67KF43B9",
+    "databaseURL": "https://smt-webapp-c53e1-default-rtdb.firebaseio.com/"
+}
 
 firebaseApp = pyrebase.initialize_app(config)
 auth = firebaseApp.auth()
