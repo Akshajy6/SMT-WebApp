@@ -9,11 +9,6 @@
   "env": {
     "FLASK_ENV": "production"
   },
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/api/app"
-    }
-  ],
+
   "rewrites": [{ "source": "/(.*)", "destination": "/api/templates/login.html" }]
 }
