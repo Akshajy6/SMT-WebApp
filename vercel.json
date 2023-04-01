@@ -7,8 +7,7 @@
     }
   ],
   "env": {
-    "FLASK_ENV": "production"
+    "FLASK_ENV": "development"
   },
-
   "rewrites": [{ "source": "/(.*)", "destination": "/api/templates/login.html" }]
 }

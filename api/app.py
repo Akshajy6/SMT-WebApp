@@ -610,3 +610,6 @@ def register_student():
     db.child("users").child("students").child(name).child("demographicInfo").set(demographicData)
     session["user_id"] = user["idToken"]
     return redirect("/email-verification")
+
+if __name__ == '__main__':
+  app.run(port=int(os.environ.get('PORT', 3000)))
