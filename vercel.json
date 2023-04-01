@@ -1,18 +1,19 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "app.py",
-        "use": "@vercel/python"
-      }
-    ],
-    "env": {
-      "FLASK_ENV": "production"
-    },
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "/api/app"
-      }
-    ]
-  }
+  "version": 2,
+  "builds": [
+    {
+      "src": "app.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "env": {
+    "FLASK_ENV": "production"
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/api/app"
+    }
+  ],
+  "rewrites": [{ "source": "/(.*)", "destination": "/api/templates/login.html" }]
+}
